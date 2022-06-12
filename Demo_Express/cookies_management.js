@@ -13,8 +13,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-// handle static files, the word 'public' doesn't need to be represented in the address.
-app.use(express.static('form'));
+// handle static files, the word 'form' doesn't need to be represented in the address.
+app.use(express.static(__dirname + '/form'));
 
 //basic route for homepage
 app.get('/', (req, res) => {
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
 // Route for adding cookie
 app.post('/setuser', (req, res) => {
-	console.log(req);
+	console.log(req.cookies);
 	// JSON object to be added to cookie
 	let user = { name: null, age: null };
 	user.name = req.body.name;
@@ -53,5 +53,6 @@ app.get('/logout', function(req, res) {
 app.listen(8081, (err) => {
 	if (err)
 		throw err;
+	console.log('__dirname: ' + __dirname);
 	console.log('listening on port 8081');
 });
