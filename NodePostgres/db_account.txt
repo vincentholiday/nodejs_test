@@ -1,0 +1,3 @@
+superuser(postgres)/qazxsw
+port: 5432
+Locale: Japan
