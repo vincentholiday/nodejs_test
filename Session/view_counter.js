@@ -7,11 +7,6 @@ var app = express();
 
 app.use(cookieParser());
 
-app.use(function(req, res, next) {
-	console.log(req.cookies);
-	next();
-});
-
 /**
  Please note that secure: true is a recommended option. 
  However, it requires an https-enabled website, i.e.,
@@ -23,10 +18,15 @@ app.use(function(req, res, next) {
  */
 app.use(session({
 	secret: 'keyborad cat', //用來簽章 sessionID 的cookie, 可以是一secret字串或是多個secret組成的一個陣列。如果是陣列, 只有第一個元素會被簽到 sessionID cookie裡。而在驗證請求中的簽名時，才會考慮所有元素。
-	resave: false, // 強制將session存回 session store, 即使它沒有被修改。預設是 true
+	resave: false, // 強制將session 存回 session store, 即使它沒有被修改。預設是 true
 	saveUninitialized: true,// 強制將未初始化的session存回 session store，未初始化的意思是它是新的而且未被修改。
 	cookie: { secure: false }// if true then it requires an https-enabled website.It only supports http by default.
 }));
+
+app.use(function(req, res, next) {
+	console.log(req.cookies);
+	next();
+});
 
 app.use(function(req, res, next) {
 	if (!req.session.views) {
@@ -42,12 +42,12 @@ app.use(function(req, res, next) {
 	next();
 });
 
-app.get('/foo', function(req, res, next) {
+app.get('/foo', function(req, res) {
 	res.send('you viewed this page ' + req.session.views['/foo'] + ' times');
 });
 
 
-app.get('/bar', function(req, res, next) {
+app.get('/bar', function(req, res) {
 	res.send('you viewed this page ' + req.session.views['/bar'] + ' times');
 });
 
